@@ -1,3 +1,5 @@
+import sys
+
 def read_data(filename):
     taskList = []
     with open(filename, "r") as infile:
@@ -21,8 +23,9 @@ def save_data(filename, taskList):
             outfile.write(f"{task['id']}, {task['title']}, {task['dueDate']}, {task['complete']}\n")
 
 
-def add_task(title, dueDate):
-    taskList = read_data("All_Tasks.CSV")
+def add_task(taskList):
+    title = input("please enter a task title")
+    dueDate = input("please enter a task due date")
     if taskList:
         new_id = max(task["id"] for task in taskList) + 1
     else:
@@ -33,9 +36,25 @@ def add_task(title, dueDate):
     taskList.append(newTask)
     save_data("All_Tasks.CSV",taskList)
 
-title = input("please enter a task title")
-dueDate = input("please enter a task due date")
 
-add_task(title,dueDate)
 
-print(read_data("All_Tasks.CSV"))
+def run_program():
+    taskList = read_data("All_Tasks.CSV")
+    home_choice = int(input("Please select an option: \n1) Add task \n2) Search task \n3) Delete task \n4) Filter tasks \n5) View tasks \n6) Exit\n"))
+    match home_choice:
+        case 1:
+            add_task(taskList)
+        case 2:
+            search_task(taskList)
+        case 3:
+            delete_task(taskList)
+        case 4:
+            filter_task(taskList)
+        case 5:
+            view_tasks(taskList)
+        case 6:
+            sys.exit()
+        case _:
+            print("incorrect value entered, please enter")
+
+run_program()
