@@ -3,7 +3,7 @@ def search_task(taskList):
 
     for i in range (len(taskList)):
         if target.strip().lower() in taskList[i]["title"]:
-            if taskList[i]["complete"]:
+            if taskList[i]["complete"] == "True":
                 complete = "Completed"
             else:
                 complete = "Incomplete"
@@ -22,7 +22,7 @@ def delete_task (taskList):
             else:
                 complete = "Incomplete"
             print(f"{taskList[i]["id"]} {taskList[i]["title"]} - {taskList[i]["dueDate"]} - {complete}")
-    ID = input("Please enter the ID of the task you want to delete: ")
+    ID = int(input("Please enter the ID of the task you want to delete: "))
     for i in range (len(taskList)):
         if ID == taskList[i]["id"]:
             taskList.remove(taskList[i])
@@ -80,6 +80,44 @@ def add_task(taskList):
     save_data("All_Tasks.CSV",taskList)
 
 
+def view_tasks(taskList):
+    
+    if len(taskList) == 0:
+        print("No tasks found.")
+    else:
+        print("\nYour Tasks:")
+        for task in taskList:
+            print(f"{task['title']}, {task['dueDate']}-{task['complete']}\n")
+
+def sort_tasks(taskList) : 
+    print("\n Sort taks by :")
+    print("1) Title : ")
+    print("2) Duedate : ")
+    print("3) Completion Status : ")
+
+    choice = int(input("Enter your choice (1-3) : "))
+
+    if choice == 1 : 
+        sorted_list = (sorted(taskList, key = lambda x: x["title"].lower() ))
+        print("\nTasks sorted by title are : ")
+    elif choice == 2 : 
+        sorted_list = (sorted(taskList, key = lambda x: x["dueDate"].lower() ))
+        print("\nTasks sorted by duedate are : ")
+    elif choice == 3 : 
+        sorted_list = (sorted(taskList, key = lambda x: x["completed"].lower() ))
+        print("\nTasks sorted by completion status are : ")
+    else : 
+        print("Invalid choice. ")
+    
+    for task in sorted_list : 
+        if task["complete"] == "True":
+                complete = "Completed"
+        else:
+                complete = "Incomplete"
+
+        spaces = 20 - len(task["title"])
+        task["title"] = task["title"].ljust(spaces + len(task["title"]))
+        print(f"{task["title"]}| {task["dueDate"]} | {complete} ")
 
 def run_program():
     taskList = read_data("All_Tasks.CSV")
@@ -92,7 +130,7 @@ def run_program():
         case 3:
             delete_task(taskList)
         case 4:
-            filter_task(taskList)
+            sort_tasks(taskList)
         case 5:
             view_tasks(taskList)
         case 6:
