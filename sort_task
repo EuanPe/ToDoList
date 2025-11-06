@@ -1,0 +1,14 @@
+def sort_tasks(filename, sort_by="id", descending=False):
+    taskList = read_data(filename)
+    
+    # Validate the sort key
+    valid_keys = ["id", "title", "dueDate", "complete"]
+    if sort_by not in valid_keys:
+        print(f"Invalid sort key. Please choose from {valid_keys}.")
+        return taskList
+    
+    # Sort the list
+    sorted_tasks = sorted(taskList, key=lambda x: x[sort_by], reverse=descending)
+    
+    return sorted_tasks
+
