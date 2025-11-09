@@ -9,8 +9,20 @@ def search_task(taskList):
                 complete = "Incomplete"
 
             print(f"{taskList[i]["title"]} - {taskList[i]["dueDate"]} - {complete}")
+            update_task(taskList)
 
-
+def update_task(taskList):
+    choice = int(input("Would you like to update a task?\n1)yes\n2)no"))
+    if choice == 1: 
+        title = input("Please enter the title of the task you want to update")
+        for i in taskList:
+            if title == taskList[i]["title"]:
+                taskList[i]["complete"] = "True"
+                print("Task successfully updated")
+            else:
+                print("task does not exist")
+    else: 
+        run_program()
 
 def delete_task (taskList):
     target = input("Enter the title of the task you want to delete: ")
@@ -23,7 +35,7 @@ def delete_task (taskList):
                 complete = "Incomplete"
             print(f"{taskList[i]["id"]} {taskList[i]["title"]} - {taskList[i]["dueDate"]} - {complete}")
     ID = int(input("Please enter the ID of the task you want to delete: "))
-    for i in range (len(taskList)):
+    for i in range (len(taskList)-1):
         if ID == taskList[i]["id"]:
             taskList.remove(taskList[i])
             print("Task removed successfully")
@@ -87,7 +99,16 @@ def view_tasks(taskList):
     else:
         print("\nYour Tasks:")
         for task in taskList:
-            print(f"{task['title']}, {task['dueDate']}-{task['complete']}\n")
+            if task["complete"] == "True":
+                complete = "Completed"
+            else:
+                complete = "Incomplete"
+
+            spaces = 20 - len(task["title"])
+            task["title"] = task["title"].ljust(spaces + len(task["title"]))
+            print(f"{task["title"]}| {task["dueDate"]} | {complete} ")
+            update_task(taskList)
+
 
 def sort_tasks(taskList) : 
     print("\n Sort taks by :")
@@ -111,9 +132,9 @@ def sort_tasks(taskList) :
     
     for task in sorted_list : 
         if task["complete"] == "True":
-                complete = "Completed"
+            complete = "Completed"
         else:
-                complete = "Incomplete"
+            complete = "Incomplete"
 
         spaces = 20 - len(task["title"])
         task["title"] = task["title"].ljust(spaces + len(task["title"]))
