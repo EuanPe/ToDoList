@@ -107,7 +107,7 @@ def view_tasks(taskList):
             spaces = 20 - len(task["title"])
             task["title"] = task["title"].ljust(spaces + len(task["title"]))
             print(f"{task["title"]}| {task["dueDate"]} | {complete} ")
-            update_task(taskList)
+        update_task(taskList)
 
 
 def sort_tasks(taskList) : 
